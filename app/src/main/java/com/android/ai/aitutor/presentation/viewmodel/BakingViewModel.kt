@@ -1,8 +1,10 @@
-package com.android.ai.aitutor
+package com.android.ai.aitutor.presentation.viewmodel
 
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.android.ai.aitutor.BuildConfig
+import com.android.ai.aitutor.UiState
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.Dispatchers

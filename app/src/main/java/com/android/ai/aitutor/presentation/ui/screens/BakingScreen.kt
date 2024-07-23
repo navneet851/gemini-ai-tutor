@@ -36,6 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.android.ai.aitutor.presentation.viewmodel.BakingViewModel
 
 val images = arrayOf(
     // Image generated using Gemini from the prompt "cupcake image"
