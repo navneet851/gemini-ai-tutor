@@ -33,6 +33,7 @@ private fun HomeScreen() {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
+                scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(),
                 navigationIcon = {
                     IconButton(onClick = { /*TODO*/ }) {
                         Icon(imageVector = Icons.Default.Menu, contentDescription = "Menu")
@@ -42,14 +43,14 @@ private fun HomeScreen() {
                     Text(text = "Home")
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0x1D651FFF),
+                    //containerColor = Color(0x1D651FFF),
                 )
             )
         }
     ) {
         Column(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(it)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -59,7 +60,7 @@ private fun HomeScreen() {
                 contentDescription = "poster",
                 modifier = Modifier
                     .size(350.dp)
-                )
+            )
         }
     }
 }
