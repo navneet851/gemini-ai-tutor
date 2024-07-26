@@ -29,7 +29,7 @@ import com.android.ai.aitutor.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Preview
 @Composable
-private fun HomeScreen() {
+fun HomeScreen() {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(

@@ -15,5 +15,5 @@ sealed class Routes(
 ) {
     object Home : Routes( label = "Home", selectedIcon = R.drawable.home_fill, unSelectedIcon = R.drawable.home, "home")
     object Chat : Routes( label = "Chat", selectedIcon = R.drawable.chat_fill, unSelectedIcon = R.drawable.chat, "chat")
-    object Classes : Routes( label = "Classes", selectedIcon = Icons.Filled.Hom, unSelectedIcon = Icons.Outlined.Home, "classes")
+    object History : Routes( label = "History", selectedIcon = R.drawable.history_fill, unSelectedIcon = R.drawable.history, "history")
 }
