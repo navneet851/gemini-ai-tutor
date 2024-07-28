@@ -50,10 +50,7 @@ fun BottomBar(navController : NavHostController) {
                 },
                 label = {
                     Text(text = it.label)
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    indicatorColor = Color.Transparent
-                )
+                }
             )
 
         }

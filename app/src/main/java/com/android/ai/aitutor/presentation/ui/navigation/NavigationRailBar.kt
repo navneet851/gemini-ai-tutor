@@ -72,10 +72,7 @@ fun NavigationRailBar(navController : NavHostController) {
                     },
                     label = {
                         Text(text = it.label)
-                    },
-                    colors = NavigationRailItemDefaults.colors(
-                        indicatorColor = Color.Transparent
-                    )
+                    }
                 )
             }
         }

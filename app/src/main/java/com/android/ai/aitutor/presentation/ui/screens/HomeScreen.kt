@@ -2,11 +2,15 @@ package com.android.ai.aitutor.presentation.ui.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -24,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.android.ai.aitutor.R
+import com.android.ai.aitutor.presentation.ui.components.ClassesCard
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -51,7 +56,8 @@ fun HomeScreen() {
         Column(
             modifier = Modifier
                 .padding(it)
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
 
@@ -61,6 +67,16 @@ fun HomeScreen() {
                 modifier = Modifier
                     .size(350.dp)
             )
+
+            Row(
+                modifier = Modifier
+                    .padding(0.dp, 10.dp)
+                    .horizontalScroll(rememberScrollState())
+            ){
+                repeat(12){
+                    ClassesCard()
+                }
+            }
         }
     }
 }
