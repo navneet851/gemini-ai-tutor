@@ -39,27 +39,9 @@ import com.android.ai.aitutor.presentation.ui.components.ClassesCard
 @Preview
 @Composable
 fun HomeScreen() {
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(),
-                navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(imageVector = Icons.Default.Menu, contentDescription = "Menu")
-                    }
-                },
-                title = {
-                    Text(text = "Home")
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    //containerColor = Color(0x1D651FFF),
-                )
-            )
-        }
-    ) {
         Column(
             modifier = Modifier
-                .padding(it)
+                .padding(10.dp)
                 .fillMaxSize()
                 .padding(10.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -79,5 +61,4 @@ fun HomeScreen() {
 
             }
         }
-    }
 }

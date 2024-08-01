@@ -41,20 +41,7 @@ import com.android.ai.aitutor.R
 @Composable
 fun ChatScreen() {
     Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                navigationIcon = {
-                    IconButton(onClick = {
 
-                    }) {
-                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Menu")
-                    }
-                },
-                title = {
-                    Text(text = "Chat")
-                }
-            )
-        },
         bottomBar = {
             var text by remember { mutableStateOf("") }
             Row(
