@@ -28,7 +28,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 @Composable
-fun NavigationRailBar(navController : NavHostController) {
+fun NavigationRailBar(navController : NavHostController, onMenuClick : () -> Unit) {
 
     val items = listOf(
         Routes.Home, Routes.Chat, Routes.History
@@ -38,7 +38,7 @@ fun NavigationRailBar(navController : NavHostController) {
 
     NavigationRail(
         header = {
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = onMenuClick) {
                 Icon(imageVector = Icons.Default.Menu, contentDescription = "Menu")
             }
         },

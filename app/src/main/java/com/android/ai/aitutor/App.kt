@@ -6,24 +6,33 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.NavigationDrawerItem
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.android.ai.aitutor.presentation.ui.navigation.BottomBar
 import com.android.ai.aitutor.presentation.ui.navigation.MyNavHost
 import com.android.ai.aitutor.presentation.ui.navigation.NavigationRailBar
 import com.android.ai.aitutor.presentation.ui.navigation.Routes
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -35,39 +44,75 @@ fun App(mainActivity: MainActivity) {
     val showNavigationRail = windowClass.widthSizeClass != WindowWidthSizeClass.Compact
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val coroutineScope = rememberCoroutineScope()
 
-    Scaffold(
-        topBar = {
-            CenterAlignedTopAppBar(
-                scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(),
-                navigationIcon = {
-                    IconButton(onClick = { /*TODO*/ }) {
-                        Icon(imageVector = Icons.Default.Menu, contentDescription = "Menu")
-                    }
-                },
-                title = {
-                    Text(text = currentRoute ?: "")
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    //containerColor = Color(0x1D651FFF),
-                )
-            )
+    ModalNavigationDrawer(
+        drawerContent = {
+            ModalDrawerSheet {
+
+                OutlinedButton(onClick = { /*TODO*/ }) {
+                    Text(text = "All Chats")
+                }
+            }
         },
-        bottomBar = {
-            if (!showNavigationRail)
-                BottomBar(navController)
-        }
+        drawerState = drawerState
     ) {
-        Box(
-            modifier = Modifier
-                .padding(it)
-                .padding( start = if (showNavigationRail) 80.dp else 0.dp,)
-        ){
-            MyNavHost(navController)
-        }
-    }
 
-    if (showNavigationRail){
-        NavigationRailBar(navController = navController)
+
+        Scaffold(
+            topBar = {
+                CenterAlignedTopAppBar(
+                    scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
+                    navigationIcon = {
+                        IconButton(onClick = {
+                            coroutineScope.launch {
+                                drawerState.open()
+                            }
+
+                        }) {
+                            Icon(imageVector = Icons.Default.Menu, contentDescription = "Menu")
+                        }
+                    },
+                    title = {
+                        Text(
+                            fontSize = 20.sp,
+                            text = when(currentRoute){
+                                "home" -> "Home"
+                                "chat" -> "Chat"
+                                "history" -> "History"
+                                else -> ""
+                            }
+                        )
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        //containerColor = Color(0x1D651FFF),
+                    )
+                )
+            },
+            bottomBar = {
+                if (!showNavigationRail)
+                    BottomBar(navController)
+            }
+        ) {
+
+
+            Box(
+                modifier = Modifier
+                    .padding(it)
+                    .padding(start = if (showNavigationRail) 80.dp else 0.dp,)
+            ) {
+                MyNavHost(navController)
+            }
+        }
+
+
+        if (showNavigationRail) {
+            NavigationRailBar(navController = navController){
+                coroutineScope.launch {
+                    drawerState.open()
+                }
+            }
+        }
     }
 }
