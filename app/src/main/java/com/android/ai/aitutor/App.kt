@@ -84,7 +84,9 @@ fun App(mainActivity: MainActivity) {
                         .padding(15.dp)
                 ) {
                     items(10){
-                        SliderItemCard()
+                        SliderItemCard("gfggdth hfghdfdvdsvfvsdfvfdsdvffgfdgrgrgsrvdh hdfhdf", {}){
+
+                        }
                     }
                 }
 

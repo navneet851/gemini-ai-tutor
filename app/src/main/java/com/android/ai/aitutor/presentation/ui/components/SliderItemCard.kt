@@ -1,6 +1,7 @@
 package com.android.ai.aitutor.presentation.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,16 +23,19 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@Preview
+
 @Composable
-fun SliderItemCard(modifier: Modifier = Modifier) {
+fun SliderItemCard(title : String, onClick : () -> Unit, onDelete : () -> Unit ) {
     Row(
         modifier = Modifier
             .padding(2.dp)
             .clip(RoundedCornerShape(40.dp))
             .background(MaterialTheme.colorScheme.inverseOnSurface)
             .padding(8.dp, 2.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                onClick()
+            },
         verticalAlignment = Alignment.CenterVertically,
         //horizontalArrangement = Arrangement.SpaceBetween
     ) {
@@ -39,9 +43,9 @@ fun SliderItemCard(modifier: Modifier = Modifier) {
             modifier = Modifier.weight(1f),
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
-            text = "gfggdth hfghdfdvdsvfvsdfvfdsdvffgfdgrgrgsrvdh hdfhdf"
+            text = title
         )
-        IconButton(onClick = { /*TODO*/ }) {
+        IconButton(onClick = onDelete) {
             Icon(
                 tint = Color.Gray,
                 imageVector = Icons.Default.Delete,
