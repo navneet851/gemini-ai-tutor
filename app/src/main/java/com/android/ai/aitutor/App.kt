@@ -51,6 +51,8 @@ fun App(mainActivity: MainActivity) {
     val showNavigationRail = windowClass.widthSizeClass != WindowWidthSizeClass.Compact
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
 
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
 
@@ -99,7 +101,7 @@ fun App(mainActivity: MainActivity) {
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
-                    scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
+                    scrollBehavior = scrollBehavior,
                     navigationIcon = {
                         IconButton(onClick = {
                             coroutineScope.launch {
