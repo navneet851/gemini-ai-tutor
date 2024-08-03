@@ -2,8 +2,13 @@ package com.android.ai.aitutor
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerValue
@@ -23,11 +28,13 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.android.ai.aitutor.presentation.ui.components.SliderItemCard
 import com.android.ai.aitutor.presentation.ui.navigation.BottomBar
 import com.android.ai.aitutor.presentation.ui.navigation.MyNavHost
 import com.android.ai.aitutor.presentation.ui.navigation.NavigationRailBar
@@ -51,9 +58,36 @@ fun App(mainActivity: MainActivity) {
         drawerContent = {
             ModalDrawerSheet {
 
-                OutlinedButton(onClick = { /*TODO*/ }) {
-                    Text(text = "All Chats")
+                Row(
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(
+                        modifier = Modifier
+                            .padding(10.dp),
+                        onClick = {
+                            coroutineScope.launch {
+                                drawerState.close()
+                            }
+
+                        }) {
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "back")
+                    }
+
+                    Text(
+                        text = "All Chats",
+                        fontSize = 18.sp
+                    )
                 }
+
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(15.dp)
+                ) {
+                    items(10){
+                        SliderItemCard()
+                    }
+                }
+
             }
         },
         drawerState = drawerState
@@ -76,7 +110,7 @@ fun App(mainActivity: MainActivity) {
                     },
                     title = {
                         Text(
-                            fontSize = 20.sp,
+                            fontSize = 18.sp,
                             text = when(currentRoute){
                                 "home" -> "Home"
                                 "chat" -> "Chat"
