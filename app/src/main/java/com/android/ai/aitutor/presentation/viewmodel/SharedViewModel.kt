@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class BakingViewModel : ViewModel() {
+class SharedViewModel : ViewModel() {
     private val _uiState: MutableStateFlow<UiState> =
         MutableStateFlow(UiState.Initial)
     val uiState: StateFlow<UiState> =
@@ -25,7 +25,6 @@ class BakingViewModel : ViewModel() {
     )
 
     fun sendPrompt(
-        bitmap: Bitmap,
         prompt: String
     ) {
         _uiState.value = UiState.Loading

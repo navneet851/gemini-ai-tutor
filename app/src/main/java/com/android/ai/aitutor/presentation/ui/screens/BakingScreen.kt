@@ -1,4 +1,4 @@
-//package com.android.ai.aitutor
+package com.android.ai.aitutor.presentation.ui.screens
 //
 //import android.graphics.BitmapFactory
 //import androidx.compose.foundation.BorderStroke
