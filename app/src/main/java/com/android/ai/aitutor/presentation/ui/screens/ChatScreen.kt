@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
@@ -18,6 +19,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,7 +45,7 @@ import com.android.ai.aitutor.presentation.viewmodel.SharedViewModel
 @Composable
 fun ChatScreen() {
 
-    val sampleConversations : MutableList<Conversation> = rememberSaveable {
+    val sampleConversations : MutableList<Conversation> = remember {
         mutableListOf(
             Conversation(
                 peer = "AI",
@@ -87,6 +89,11 @@ fun ChatScreen() {
     val uiState by chatViewModel.uiState.collectAsState()
     var result by rememberSaveable { mutableStateOf("") }
     var text by remember { mutableStateOf("") }
+    val listState = rememberLazyListState()
+
+    LaunchedEffect(sampleConversations.size) {
+        listState.animateScrollToItem(sampleConversations.size - 1)
+    }
 
     Scaffold(
 
@@ -130,14 +137,16 @@ fun ChatScreen() {
                         .background(Color(0xFF8B64F8))
                         ,
                     onClick = {
-                        chatViewModel.sendPrompt(text)
-                        sampleConversations.add(
-                            Conversation(
-                                peer = "User",
-                                chat = Chat(text = text)
+                        if (text != ""){
+                            chatViewModel.sendPrompt(text)
+                            sampleConversations.add(
+                                Conversation(
+                                    peer = "User",
+                                    chat = Chat(text = text)
+                                )
                             )
-
-                        )
+                            text = ""
+                        }
                     }
                 ) {
                     Icon(imageVector = Icons.AutoMirrored.Filled.Send, contentDescription = "send")
@@ -147,18 +156,19 @@ fun ChatScreen() {
     ) {
 
         if (uiState is UiState.Success) {
-                result = (uiState as UiState.Success).outputText
+            //result = (uiState as UiState.Success).outputText
                 sampleConversations.add(
                     Conversation(
                         peer = "AI",
-                        chat = Chat(text = result)
+                        chat = Chat(text = (uiState as UiState.Success).outputText)
                     )
                 )
-            }
+        }
 
 
 
         LazyColumn(
+            state = listState,
             modifier = Modifier
                 .padding(it)
         ) {
