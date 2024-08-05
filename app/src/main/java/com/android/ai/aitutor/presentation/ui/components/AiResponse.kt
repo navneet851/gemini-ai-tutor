@@ -25,7 +25,7 @@ fun AiResponse(chat: Chat) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(10.dp, 5.dp)
+            .padding(10.dp, 2.dp)
             .padding(end = 50.dp),
 
     ) {
@@ -34,7 +34,7 @@ fun AiResponse(chat: Chat) {
                 .padding(5.dp)
                 .clip(RoundedCornerShape(50))
                 .background(MaterialTheme.colorScheme.inverseOnSurface)
-                .size(25.dp)
+                .size(20.dp)
                 .padding(3.dp),
             painter = painterResource(id = R.drawable.gemini_ai_icon),
             contentDescription = "ai"

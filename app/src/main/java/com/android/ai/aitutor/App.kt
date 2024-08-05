@@ -27,11 +27,22 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.android.ai.aitutor.presentation.ui.components.SliderItemCard
@@ -39,12 +50,14 @@ import com.android.ai.aitutor.presentation.ui.navigation.BottomBar
 import com.android.ai.aitutor.presentation.ui.navigation.MyNavHost
 import com.android.ai.aitutor.presentation.ui.navigation.NavigationRailBar
 import com.android.ai.aitutor.presentation.ui.navigation.Routes
+import com.android.ai.aitutor.presentation.viewmodel.SharedViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun App(mainActivity: MainActivity) {
+
 
     val navController = rememberNavController()
     val windowClass = calculateWindowSizeClass(activity = mainActivity)
@@ -98,6 +111,8 @@ fun App(mainActivity: MainActivity) {
     ) {
 
 
+
+
         Scaffold(
             topBar = {
                 CenterAlignedTopAppBar(
@@ -129,8 +144,10 @@ fun App(mainActivity: MainActivity) {
                 )
             },
             bottomBar = {
-                if (!showNavigationRail)
+                if (!showNavigationRail) {
                     BottomBar(navController)
+                }
+
             }
         ) {
 
@@ -154,3 +171,4 @@ fun App(mainActivity: MainActivity) {
         }
     }
 }
+

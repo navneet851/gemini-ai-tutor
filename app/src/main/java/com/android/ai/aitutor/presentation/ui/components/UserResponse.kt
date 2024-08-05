@@ -27,7 +27,7 @@ fun UserResponse(chat: Chat) {
         horizontalArrangement = Arrangement.End,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(10.dp, 5.dp)
+            .padding(10.dp, 2.dp)
             .padding(start = 50.dp)
 
     ) {
