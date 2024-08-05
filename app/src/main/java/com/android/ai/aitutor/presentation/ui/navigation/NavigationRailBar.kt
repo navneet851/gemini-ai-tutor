@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -43,6 +44,7 @@ fun NavigationRailBar(navController : NavHostController, onMenuClick : () -> Uni
             }
         },
         modifier = Modifier
+            .statusBarsPadding()
             .background(MaterialTheme.colorScheme.inverseOnSurface)
             .offset(x = (-1).dp)
     ) {

@@ -2,13 +2,15 @@ package com.android.ai.aitutor
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.DrawerValue
@@ -17,8 +19,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
-import androidx.compose.material3.NavigationDrawerItem
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -27,33 +27,23 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.android.ai.aitutor.presentation.ui.components.SliderItemCard
 import com.android.ai.aitutor.presentation.ui.navigation.BottomBar
 import com.android.ai.aitutor.presentation.ui.navigation.MyNavHost
 import com.android.ai.aitutor.presentation.ui.navigation.NavigationRailBar
-import com.android.ai.aitutor.presentation.ui.navigation.Routes
-import com.android.ai.aitutor.presentation.viewmodel.SharedViewModel
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class,
+    ExperimentalLayoutApi::class
+)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun App(mainActivity: MainActivity) {
@@ -110,10 +100,8 @@ fun App(mainActivity: MainActivity) {
         drawerState = drawerState
     ) {
 
-
-
-
         Scaffold(
+            modifier = Modifier.imePadding(),
             topBar = {
                 CenterAlignedTopAppBar(
                     scrollBehavior = scrollBehavior,
@@ -144,7 +132,7 @@ fun App(mainActivity: MainActivity) {
                 )
             },
             bottomBar = {
-                if (!showNavigationRail) {
+                if (!WindowInsets.isImeVisible && !showNavigationRail) {
                     BottomBar(navController)
                 }
 
@@ -171,4 +159,5 @@ fun App(mainActivity: MainActivity) {
         }
     }
 }
+
 

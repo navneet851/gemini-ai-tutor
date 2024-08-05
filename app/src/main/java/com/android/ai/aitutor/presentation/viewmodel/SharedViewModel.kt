@@ -1,6 +1,5 @@
 package com.android.ai.aitutor.presentation.viewmodel
 
-import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.ai.aitutor.BuildConfig
