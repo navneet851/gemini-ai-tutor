@@ -1,20 +1,20 @@
 package com.android.ai.aitutor.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.android.ai.aitutor.BuildConfig
 import com.android.ai.aitutor.UiState
 import com.android.ai.aitutor.domain.entities.Chat
 import com.android.ai.aitutor.domain.entities.Conversation
-import com.google.ai.client.generativeai.GenerativeModel
-import com.google.ai.client.generativeai.type.content
-import kotlinx.coroutines.Dispatchers
+import com.android.ai.aitutor.domain.usecases.SendPromptUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SharedViewModel : ViewModel() {
+@HiltViewModel
+class SharedViewModel @Inject constructor(
+    private val sendPromptUseCase: SendPromptUseCase
+) : ViewModel() {
     private val _uiState: MutableStateFlow<UiState> =
         MutableStateFlow(UiState.Initial)
     val uiState: StateFlow<UiState> =
@@ -36,11 +36,6 @@ class SharedViewModel : ViewModel() {
         _currentConversation.value += conversation
     }
 
-    private val generativeModel = GenerativeModel(
-        modelName = "gemini-1.5-flash",
-        apiKey = BuildConfig.apiKey
-    )
-
     fun sendPrompt(
         prompt: String
     ) {
@@ -52,26 +47,19 @@ class SharedViewModel : ViewModel() {
         )
         _uiState.value = UiState.Loading
 
-        viewModelScope.launch(Dispatchers.IO) {
-            try {
-                val response = generativeModel.generateContent(
-                    content {
-                        //image(bitmap)
-                        text(prompt)
-                    }
-                )
-                response.text?.let { outputContent ->
-                    _uiState.value = UiState.Success(outputContent)
-                    addConversation(
-                        Conversation(
-                            peer = "AI",
-                            chat = Chat(text = outputContent)
-                        )
-                    )
-                }
-            } catch (e: Exception) {
-                _uiState.value = UiState.Error(e.localizedMessage ?: "")
-            }
-        }
+//        viewModelScope.launch(Dispatchers.IO) {
+//            try {
+//                val response = sendPromptUseCase(Chat(text = prompt))
+//                _uiState.value = UiState.Success(response.text)
+//                addConversation(
+//                    Conversation(
+//                        peer = "AI",
+//                        chat = response
+//                    )
+//                )
+//            } catch (e: Exception) {
+//                _uiState.value = UiState.Error(e.localizedMessage ?: "")
+//            }
+//        }
     }
 }
