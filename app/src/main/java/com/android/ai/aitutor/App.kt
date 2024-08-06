@@ -30,15 +30,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.android.ai.aitutor.presentation.ui.components.SliderItemCard
 import com.android.ai.aitutor.presentation.ui.navigation.BottomBar
 import com.android.ai.aitutor.presentation.ui.navigation.MyNavHost
 import com.android.ai.aitutor.presentation.ui.navigation.NavigationRailBar
+import com.android.ai.aitutor.presentation.viewmodel.SharedViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class,
@@ -48,7 +49,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun App(mainActivity: MainActivity) {
 
-
+    val sharedViewModel : SharedViewModel = viewModel()
     val navController = rememberNavController()
     val windowClass = calculateWindowSizeClass(activity = mainActivity)
     val showNavigationRail = windowClass.widthSizeClass != WindowWidthSizeClass.Compact
@@ -139,14 +140,14 @@ fun App(mainActivity: MainActivity) {
             }
         ) {
 
-
             Box(
                 modifier = Modifier
                     .padding(it)
                     .padding(start = if (showNavigationRail) 80.dp else 0.dp,)
             ) {
-                MyNavHost(navController)
+                MyNavHost(navController, sharedViewModel)
             }
+
         }
 
 

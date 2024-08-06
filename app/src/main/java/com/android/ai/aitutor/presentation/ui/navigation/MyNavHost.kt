@@ -1,17 +1,16 @@
 package com.android.ai.aitutor.presentation.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
 import com.android.ai.aitutor.presentation.ui.screens.ChatScreen
 import com.android.ai.aitutor.presentation.ui.screens.HistoryScreen
 import com.android.ai.aitutor.presentation.ui.screens.HomeScreen
+import com.android.ai.aitutor.presentation.viewmodel.SharedViewModel
 
 @Composable
-fun MyNavHost(navController : NavHostController) {
+fun MyNavHost(navController: NavHostController, sharedViewModel: SharedViewModel) {
 
     NavHost(
         navController,
@@ -21,7 +20,7 @@ fun MyNavHost(navController : NavHostController) {
             HomeScreen()
         }
         composable(Routes.Chat.route){
-            ChatScreen()
+            ChatScreen(sharedViewModel)
         }
         composable(Routes.History.route){
             HistoryScreen()

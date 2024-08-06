@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.ai.aitutor.BuildConfig
 import com.android.ai.aitutor.UiState
+import com.android.ai.aitutor.presentation.ui.screens.Chat
+import com.android.ai.aitutor.presentation.ui.screens.Conversation
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +20,22 @@ class SharedViewModel : ViewModel() {
     val uiState: StateFlow<UiState> =
         _uiState.asStateFlow()
 
+    private val _currentConversation : MutableStateFlow<List<Conversation>> = MutableStateFlow(listOf(
+            Conversation(
+                peer = "AI",
+                chat = Chat(
+                    text = "Hello! How can I assist you today?"
+                )
+            )
+        )
+    )
+
+    val currentConversation : StateFlow<List<Conversation>> = _currentConversation.asStateFlow()
+
+    fun addConversation(conversation: Conversation){
+        _currentConversation.value += conversation
+    }
+
     private val generativeModel = GenerativeModel(
         modelName = "gemini-1.5-flash",
         apiKey = BuildConfig.apiKey
@@ -26,6 +44,12 @@ class SharedViewModel : ViewModel() {
     fun sendPrompt(
         prompt: String
     ) {
+        addConversation(
+            Conversation(
+                peer = "User",
+                chat = Chat(text = prompt)
+            )
+        )
         _uiState.value = UiState.Loading
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -38,6 +62,12 @@ class SharedViewModel : ViewModel() {
                 )
                 response.text?.let { outputContent ->
                     _uiState.value = UiState.Success(outputContent)
+                    addConversation(
+                        Conversation(
+                            peer = "AI",
+                            chat = Chat(text = outputContent)
+                        )
+                    )
                 }
             } catch (e: Exception) {
                 _uiState.value = UiState.Error(e.localizedMessage ?: "")
