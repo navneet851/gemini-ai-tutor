@@ -26,7 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import com.android.ai.aitutor.R
-import com.android.ai.aitutor.presentation.ui.screens.Chat
+import com.android.ai.aitutor.domain.entities.Chat
 
 
 @Composable

@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.ai.aitutor.BuildConfig
 import com.android.ai.aitutor.UiState
-import com.android.ai.aitutor.presentation.ui.screens.Chat
-import com.android.ai.aitutor.presentation.ui.screens.Conversation
+import com.android.ai.aitutor.domain.entities.Chat
+import com.android.ai.aitutor.domain.entities.Conversation
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import kotlinx.coroutines.Dispatchers
@@ -32,7 +32,7 @@ class SharedViewModel : ViewModel() {
 
     val currentConversation : StateFlow<List<Conversation>> = _currentConversation.asStateFlow()
 
-    fun addConversation(conversation: Conversation){
+    private fun addConversation(conversation: Conversation){
         _currentConversation.value += conversation
     }
 

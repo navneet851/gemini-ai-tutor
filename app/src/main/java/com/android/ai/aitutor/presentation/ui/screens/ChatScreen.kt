@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -29,11 +28,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.android.ai.aitutor.R
 import com.android.ai.aitutor.UiState
+import com.android.ai.aitutor.domain.entities.Chat
 import com.android.ai.aitutor.presentation.ui.components.AiResponse
 import com.android.ai.aitutor.presentation.ui.components.UserResponse
 import com.android.ai.aitutor.presentation.viewmodel.SharedViewModel
@@ -59,19 +57,21 @@ fun ChatScreen(chatViewModel: SharedViewModel) {
         bottomBar = {
 
             Row(
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.Bottom,
                 modifier = Modifier
                     .padding(10.dp)
                     .fillMaxWidth()
             ) {
                 TextField(
                     modifier = Modifier
-                        .weight(1f),
-                    shape = RoundedCornerShape(50),
+                        .weight(1f)
+                    ,
+                    shape = if (text.lines().size > 1) RoundedCornerShape(10.dp) else RoundedCornerShape(50.dp),
                     value = text,
                     onValueChange = {
                         text = it
                     },
+                    maxLines = 5,
                     trailingIcon = {
                         Row {
                             IconButton(onClick = { /*TODO*/ }) {
@@ -139,12 +139,3 @@ fun ChatScreen(chatViewModel: SharedViewModel) {
     }
 }
 
-data class Conversation(
-    val peer : String,
-    val chat : Chat
-)
-
-data class Chat(
-    val text : String,
-    val image : String = ""
-)
