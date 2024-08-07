@@ -1,7 +1,6 @@
 package com.android.ai.aitutor
 
 import android.annotation.SuppressLint
-import android.app.Application
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
@@ -41,11 +40,8 @@ import com.android.ai.aitutor.presentation.ui.navigation.BottomBar
 import com.android.ai.aitutor.presentation.ui.navigation.MyNavHost
 import com.android.ai.aitutor.presentation.ui.navigation.NavigationRailBar
 import com.android.ai.aitutor.presentation.viewmodel.SharedViewModel
-import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.launch
 
-@HiltAndroidApp
-class App : Application()
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class, ExperimentalMaterial3Api::class,
     ExperimentalLayoutApi::class
@@ -54,7 +50,7 @@ class App : Application()
 @Composable
 fun App(mainActivity: MainActivity) {
 
-    val sharedViewModel : SharedViewModel  = hiltViewModel()
+    //val sharedViewModel : SharedViewModel  = hiltViewModel()
     val navController = rememberNavController()
     val windowClass = calculateWindowSizeClass(activity = mainActivity)
     val showNavigationRail = windowClass.widthSizeClass != WindowWidthSizeClass.Compact
@@ -150,6 +146,7 @@ fun App(mainActivity: MainActivity) {
                     .padding(it)
                     .padding(start = if (showNavigationRail) 80.dp else 0.dp,)
             ) {
+                val sharedViewModel = hiltViewModel<SharedViewModel>()
                 MyNavHost(navController, sharedViewModel)
             }
 

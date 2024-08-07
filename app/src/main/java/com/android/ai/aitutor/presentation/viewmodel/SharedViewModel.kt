@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
+
 @HiltViewModel
 class SharedViewModel @Inject constructor(
     private val sendPromptUseCase: SendPromptUseCase
