@@ -50,7 +50,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun App(mainActivity: MainActivity) {
 
-    //val sharedViewModel : SharedViewModel  = hiltViewModel()
+    val sharedViewModel : SharedViewModel  = hiltViewModel()
     val navController = rememberNavController()
     val windowClass = calculateWindowSizeClass(activity = mainActivity)
     val showNavigationRail = windowClass.widthSizeClass != WindowWidthSizeClass.Compact
