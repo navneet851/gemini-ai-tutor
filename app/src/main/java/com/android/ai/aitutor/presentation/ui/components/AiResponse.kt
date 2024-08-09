@@ -35,12 +35,12 @@ fun AiResponse(chat: Chat) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp, 2.dp)
-            .padding(end = 50.dp),
+            .padding(end = 60.dp),
 
-    ) {
+        ) {
         val clipboardManager: ClipboardManager = LocalClipboardManager.current
         val context = LocalContext.current
-        
+
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
@@ -55,26 +55,22 @@ fun AiResponse(chat: Chat) {
                 painter = painterResource(id = R.drawable.gemini_ai_icon),
                 contentDescription = "ai"
             )
-//            IconButton(onClick = {
-//                clipboardManager.setText(AnnotatedString(chat.text))
-//                Toast
-//                    .makeText(context, "Copied", Toast.LENGTH_SHORT).show()
-//            }) {
-                Icon(
-                    modifier = Modifier
-                        .padding(0.dp, 4.dp)
-                        .size(18.dp)
-                        .clickable {
-                            clipboardManager.setText(AnnotatedString(chat.text))
-                            Toast.makeText(context, "Copied", Toast.LENGTH_SHORT).show()
-                        },
-                    tint = Color.Gray,
-                    painter = painterResource(id = R.drawable.baseline_content_copy_24),
-                    contentDescription = "copy"
-                )
-//            }
+            Icon(
+                modifier = Modifier
+                    .padding(0.dp, 4.dp)
+                    .size(16.dp)
+                    .clickable {
+                        clipboardManager.setText(AnnotatedString(chat.text))
+                        Toast
+                            .makeText(context, "Copied", Toast.LENGTH_SHORT)
+                            .show()
+                    },
+                tint = Color.Gray,
+                painter = painterResource(id = R.drawable.baseline_content_copy_24),
+                contentDescription = "copy"
+            )
         }
-        
+
         Text(
             modifier = Modifier
                 .weight(1f)
