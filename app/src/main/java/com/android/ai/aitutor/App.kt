@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.padding
@@ -143,10 +144,10 @@ fun App(mainActivity: MainActivity) {
 
             Box(
                 modifier = Modifier
+                    .fillMaxSize()
                     .padding(it)
                     .padding(start = if (showNavigationRail) 80.dp else 0.dp,)
             ) {
-                val sharedViewModel = hiltViewModel<SharedViewModel>()
                 MyNavHost(navController, sharedViewModel)
             }
 

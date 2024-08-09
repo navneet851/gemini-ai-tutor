@@ -3,11 +3,11 @@ package com.android.ai.aitutor.presentation.ui.components
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -24,38 +24,37 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.android.ai.aitutor.R
 import com.android.ai.aitutor.domain.entities.Banner
-import kotlin.math.abs
 
 
-fun Path.standardQuadFromTo(from: Offset, to: Offset) {
-    // this function is basically draw
-    // a line to our second point and
-    // also smooth on that line and make it curve
-    quadraticTo(
-        from.x,
-        from.y,
-        abs(from.x + to.x) / 2f,
-        abs(from.y + to.y) / 2f
-    )
-}
+//fun Path.standardQuadFromTo(from: Offset, to: Offset) {
+//    // this function is basically draw
+//    // a line to our second point and
+//    // also smooth on that line and make it curve
+//    quadraticTo(
+//        from.x,
+//        from.y,
+//        abs(from.x + to.x) / 2f,
+//        abs(from.y + to.y) / 2f
+//    )
+//}
 @Composable
-fun BannerTemplate(
-    bannerDetail: Banner
+fun BannerCard(
+    bannerDetail: Banner,
+    onClick: () -> Unit
 ) {
     BoxWithConstraints(
         // Box with some attributes
         modifier = Modifier
-            .padding(0.dp, 10.dp)
-            //.aspectRatio(1f)
-            .fillMaxWidth()
-            .height(190.dp)
+            .padding(end = 10.dp, bottom = 10.dp)
+            .aspectRatio(1f)
             .clip(RoundedCornerShape(10.dp))
             .background(bannerDetail.darkColor)
+            .clickable {
+                onClick()
+            }
     ) {
         val width = constraints.maxWidth
         val height = constraints.maxHeight
@@ -151,14 +150,3 @@ fun BannerTemplate(
     }
 }
 
-@Preview
-@Composable
-private fun BannerPrev() {
-    BannerTemplate(bannerDetail = Banner(
-        title = "How does AI Works How does AI Works ",
-        R.drawable.male,
-        Color(0xFF6EFA9D),
-        Color(0xFF92F8AB),
-        Color(0xFF60FA94)
-    ))
-}
