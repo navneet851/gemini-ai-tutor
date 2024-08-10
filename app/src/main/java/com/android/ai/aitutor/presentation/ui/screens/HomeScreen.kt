@@ -135,7 +135,7 @@ fun HomeScreen(navController: NavController) {
                         Color(0x727B77FD)
                     )
                 ){
-                    navController.navigate("${Routes.Info.route}/$classes[it]")
+                    navController.navigate("${Routes.Info.route}/${classes[it]} Class")
                 }
             }
 
@@ -172,7 +172,7 @@ fun HomeScreen(navController: NavController) {
         ) {
             items(subjects.size) {
                 BannerCard(bannerDetail = subjects[it]){
-
+                    navController.navigate("${Routes.Info.route}/${subjects[it].title} Subject")
                 }
             }
 

@@ -29,8 +29,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.ai.aitutor.domain.entities.Banner
 import com.android.ai.aitutor.presentation.ui.utilities.standardQuadFromTo
-import kotlin.math.abs
-
 
 
 @Composable
@@ -133,14 +131,17 @@ fun BannerTemplate(
                     .align(Alignment.BottomStart)
                     .size(40.dp)
             )
-            Icon(
-                imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                contentDescription = "open",
-                tint = Color.White,
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .size(25.dp)
-            )
+            if(bannerDetail.title != "Learn Faster and Efficiently with AI."){
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                    contentDescription = "open",
+                    tint = Color.White,
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .size(25.dp)
+                )
+            }
+
         }
     }
 }

@@ -32,7 +32,7 @@ fun MyNavHost(navController: NavHostController, sharedViewModel: SharedViewModel
             val inputData = navBackStackEntry.arguments?.getString("inputString")
             /* We check if it's not null */
             inputData?.let { inputString->
-                InfoScreen(inputString, sharedViewModel)
+                InfoScreen(inputString, sharedViewModel, navController)
             }
 
 
