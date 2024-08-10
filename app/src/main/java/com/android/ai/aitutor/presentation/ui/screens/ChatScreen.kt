@@ -97,7 +97,7 @@ fun ChatScreen(chatViewModel: SharedViewModel) {
                         ,
                     onClick = {
                         if (text != ""){
-                            chatViewModel.sendPrompt(text)
+                            chatViewModel.sendConversationPrompt(text)
                             text = ""
                             listScrollState = !listScrollState
                         }
@@ -118,6 +118,7 @@ fun ChatScreen(chatViewModel: SharedViewModel) {
             items(currentConversation.size){ convo ->
                 if (currentConversation[convo].peer == "AI")
                     AiResponse(currentConversation[convo].chat)
+
                 else
                     UserResponse(currentConversation[convo].chat)
             }

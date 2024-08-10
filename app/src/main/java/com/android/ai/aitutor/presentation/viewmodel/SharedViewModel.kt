@@ -36,11 +36,12 @@ class SharedViewModel @Inject constructor (
 
     val currentConversation : StateFlow<List<Conversation>> = _currentConversation.asStateFlow()
 
+
     private fun addConversation(conversation: Conversation){
         _currentConversation.value += conversation
     }
 
-    fun sendPrompt(
+    fun sendConversationPrompt(
         prompt: String
     ) {
         addConversation(
@@ -61,6 +62,22 @@ class SharedViewModel @Inject constructor (
                         chat = response
                     )
                 )
+            } catch (e: Exception) {
+                _uiState.value = UiState.Error(e.localizedMessage ?: "")
+            }
+        }
+    }
+    fun sendPrompt(
+        prompt: String
+    ) {
+
+        _uiState.value = UiState.Loading
+
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val response = sendPromptUseCase.invoke(Chat(text = prompt))
+                _uiState.value = UiState.Success(response.text)
+
             } catch (e: Exception) {
                 _uiState.value = UiState.Error(e.localizedMessage ?: "")
             }

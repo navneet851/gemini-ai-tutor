@@ -27,19 +27,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.ai.aitutor.domain.entities.Banner
+import com.android.ai.aitutor.presentation.ui.utilities.standardQuadFromTo
 
 
-//fun Path.standardQuadFromTo(from: Offset, to: Offset) {
-//    // this function is basically draw
-//    // a line to our second point and
-//    // also smooth on that line and make it curve
-//    quadraticTo(
-//        from.x,
-//        from.y,
-//        abs(from.x + to.x) / 2f,
-//        abs(from.y + to.y) / 2f
-//    )
-//}
 @Composable
 fun BannerCard(
     bannerDetail: Banner,

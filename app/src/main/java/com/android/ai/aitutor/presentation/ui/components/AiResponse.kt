@@ -31,6 +31,7 @@ import com.android.ai.aitutor.domain.entities.Chat
 
 @Composable
 fun AiResponse(chat: Chat) {
+
     Row(
         modifier = Modifier
             .fillMaxWidth()

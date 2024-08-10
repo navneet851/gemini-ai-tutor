@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.android.ai.aitutor.presentation.ui.screens.ChatScreen
 import com.android.ai.aitutor.presentation.ui.screens.HistoryScreen
 import com.android.ai.aitutor.presentation.ui.screens.HomeScreen
+import com.android.ai.aitutor.presentation.ui.screens.InfoScreen
 import com.android.ai.aitutor.presentation.viewmodel.SharedViewModel
 
 
@@ -25,6 +26,16 @@ fun MyNavHost(navController: NavHostController, sharedViewModel: SharedViewModel
         }
         composable(Routes.History.route){
             HistoryScreen()
+        }
+        composable("${Routes.Info.route}/{inputString}"){ navBackStackEntry ->
+            /* Extracting the id from the route */
+            val inputData = navBackStackEntry.arguments?.getString("inputString")
+            /* We check if it's not null */
+            inputData?.let { inputString->
+                InfoScreen(inputString, sharedViewModel)
+            }
+
+
         }
     }
 }

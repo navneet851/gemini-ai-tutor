@@ -135,7 +135,7 @@ fun HomeScreen(navController: NavController) {
                         Color(0x727B77FD)
                     )
                 ){
-
+                    navController.navigate("${Routes.Info.route}/$classes[it]")
                 }
             }
 
