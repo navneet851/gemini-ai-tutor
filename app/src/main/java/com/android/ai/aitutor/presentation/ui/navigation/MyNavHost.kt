@@ -22,10 +22,10 @@ fun MyNavHost(navController: NavHostController, sharedViewModel: SharedViewModel
             HomeScreen(navController, sharedViewModel)
         }
         composable(Routes.Chat.route){
-            ChatScreen(sharedViewModel)
+            ChatScreen(sharedViewModel, navController)
         }
         composable(Routes.History.route){
-            HistoryScreen(sharedViewModel)
+            HistoryScreen(sharedViewModel, navController)
         }
         composable("${Routes.Info.route}/{inputString}"){ navBackStackEntry ->
             /* Extracting the id from the route */
@@ -39,3 +39,4 @@ fun MyNavHost(navController: NavHostController, sharedViewModel: SharedViewModel
         }
     }
 }
+

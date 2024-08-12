@@ -31,8 +31,7 @@ fun BottomBar(navController : NavHostController) {
                 onClick = {
                     if (it.route != currentRoute){
                         navController.navigate(it.route){
-                            launchSingleTop = true
-                            restoreState = true
+                           launchSingleTop = true
                         }
                     }
 

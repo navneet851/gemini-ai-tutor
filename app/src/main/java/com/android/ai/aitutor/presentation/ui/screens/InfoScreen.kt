@@ -32,11 +32,10 @@ import org.json.JSONObject
 
 @Composable
 fun InfoScreen(
-    inputString: String,
+    inputString: String = "",
     infoViewModel: SharedViewModel,
     navController: NavHostController
 ) {
-
 
 
     val inputPrompt = if(inputString.contains("Subject")){
@@ -129,9 +128,11 @@ fun InfoScreen(
                     navController.navigate(Routes.Chat.route)
                 }
             }
-            items(subjectsList.size) {
-                InfoDropDown(subject = subjectsList[it]) {
-
+            items(subjectsList.size) { it ->
+                InfoDropDown(subject = subjectsList[it]) { topic ->
+                    val inputChat = "provide me information about the topic $topic $inputString"
+                    infoViewModel.sendConversationPrompt(inputChat)
+                    navController.navigate(Routes.Chat.route)
                 }
             }
         }

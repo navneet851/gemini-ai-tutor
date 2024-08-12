@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.android.ai.aitutor"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.android.ai.aitutor"
@@ -84,5 +84,8 @@ dependencies {
     annotationProcessor(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     kapt(libs.androidx.room.compiler)
+
+    //splashScreen
+    implementation(libs.androidx.core.splashscreen)
 
 }

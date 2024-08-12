@@ -33,6 +33,8 @@ import com.android.ai.aitutor.presentation.viewmodel.SharedViewModel
 @Composable
 fun HomeScreen(navController: NavController, sharedViewModel: SharedViewModel) {
 
+    val user = sharedViewModel.user
+
     val classes = listOf(
         "1st",
         "2nd",
@@ -92,7 +94,7 @@ fun HomeScreen(navController: NavController, sharedViewModel: SharedViewModel) {
             modifier = Modifier
                 .padding(5.dp)
                 .fillMaxWidth(),
-            text = "Welcome ${sharedViewModel.user?.name ?: "User"}",
+            text = "Welcome ${user?.name ?: "User"}",
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold
         )

@@ -1,6 +1,7 @@
 package com.android.ai.aitutor.presentation.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +14,7 @@ import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -27,17 +29,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.android.ai.aitutor.R
+import androidx.navigation.NavHostController
+import com.android.ai.aitutor.CustomBackHandler
 import com.android.ai.aitutor.UiState
 import com.android.ai.aitutor.domain.entities.Chat
 import com.android.ai.aitutor.presentation.ui.components.AiResponse
 import com.android.ai.aitutor.presentation.ui.components.UserResponse
+import com.android.ai.aitutor.presentation.ui.navigation.Routes
 import com.android.ai.aitutor.presentation.viewmodel.SharedViewModel
 
 @Composable
-fun ChatScreen(chatViewModel: SharedViewModel) {
+fun ChatScreen(chatViewModel: SharedViewModel, navController: NavHostController) {
+
+    CustomBackHandler(navController, Routes.Home.route)
 
     val currentConversation by chatViewModel.currentConversation.collectAsState()
     val uiState by chatViewModel.uiState.collectAsState()
@@ -47,17 +52,27 @@ fun ChatScreen(chatViewModel: SharedViewModel) {
     var listScrollState by rememberSaveable {
         mutableStateOf(false)
     }
+    val user = chatViewModel.user
 
     LaunchedEffect(listScrollState, uiState) {
         listState.animateScrollToItem(currentConversation.size - 1)
     }
+
+//    LaunchedEffect(Unit) {
+//        if(inputTopic != null){
+//            val inputPrompt = "provide me information about the topic $inputTopic"
+//            chatViewModel.sendConversationPrompt(inputPrompt)
+//        }
+//    }
+
 
     Scaffold(
 
         bottomBar = {
 
             Row(
-                verticalAlignment = Alignment.Bottom,
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
                 modifier = Modifier
                     .padding(10.dp)
                     .fillMaxWidth()
@@ -72,17 +87,20 @@ fun ChatScreen(chatViewModel: SharedViewModel) {
                         text = it
                     },
                     maxLines = 5,
-                    trailingIcon = {
-                        Row {
-                            IconButton(onClick = { /*TODO*/ }) {
-                                Icon(painter = painterResource(id = R.drawable.outline_photo_camera_24), contentDescription = "camera")
-                            }
-                            IconButton(onClick = { /*TODO*/ }) {
-                                Icon(painter = painterResource(id = R.drawable.baseline_photo_library_24), contentDescription = "send")
-                            }
-                        }
-
+                    placeholder = {
+                        Text(text = "Send Message")
                     },
+//                    trailingIcon = {
+//                        Row {
+//                            IconButton(onClick = { /*TODO*/ }) {
+//                                Icon(painter = painterResource(id = R.drawable.outline_photo_camera_24), contentDescription = "camera")
+//                            }
+//                            IconButton(onClick = { /*TODO*/ }) {
+//                                Icon(painter = painterResource(id = R.drawable.baseline_photo_library_24), contentDescription = "send")
+//                            }
+//                        }
+//
+//                    },
                     colors = TextFieldDefaults.colors(
                         unfocusedIndicatorColor = Color.Transparent,
                         focusedIndicatorColor = Color.Transparent,
@@ -120,7 +138,7 @@ fun ChatScreen(chatViewModel: SharedViewModel) {
                     AiResponse(currentConversation[convo].chat)
 
                 else
-                    UserResponse(currentConversation[convo].chat)
+                    UserResponse(currentConversation[convo].chat, user)
             }
 
             if (uiState is UiState.Loading){

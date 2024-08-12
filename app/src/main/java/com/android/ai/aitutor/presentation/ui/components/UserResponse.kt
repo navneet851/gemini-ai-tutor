@@ -18,10 +18,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.android.ai.aitutor.R
 import com.android.ai.aitutor.domain.entities.Chat
+import com.android.ai.aitutor.domain.entities.User
 
 
 @Composable
-fun UserResponse(chat: Chat) {
+fun UserResponse(chat: Chat, user: User?) {
     Row(
         horizontalArrangement = Arrangement.End,
         modifier = Modifier
@@ -49,7 +50,13 @@ fun UserResponse(chat: Chat) {
                 .background(MaterialTheme.colorScheme.inverseOnSurface)
                 .size(25.dp)
                 .padding(2.dp),
-            painter = painterResource(id = R.drawable.male),
+            painter = painterResource(
+                id = if (user?.gender == "Female") {
+                    R.drawable.female
+                } else {
+                    R.drawable.male
+                }
+            ),
             contentDescription = "ai"
         )
     }

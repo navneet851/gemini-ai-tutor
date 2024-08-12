@@ -1,6 +1,7 @@
 package com.android.ai.aitutor
 
 import android.annotation.SuppressLint
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -57,6 +58,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.android.ai.aitutor.presentation.ui.components.UserDialog
@@ -86,24 +88,41 @@ fun App(mainActivity: MainActivity) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
 
-    var user = sharedViewModel.user
+
     var dialog by remember{
         mutableStateOf(false)
     }
 
-    LaunchedEffect(Unit) {
-        if (user == null){
+
+
+
+    LaunchedEffect(sharedViewModel.user) {
+        if (sharedViewModel.user == null){
             dialog = true
         }
     }
 
+
+    if (dialog){
+        UserDialog(){
+            if(sharedViewModel.user == null){
+                sharedViewModel.saveUser(it.id, it.name, it.gender)
+            }
+            else{
+                sharedViewModel.updateUserById(it.id, it.name, it.gender)
+            }
+
+            dialog = false
+
+        }
+    }
 
 
 
     ModalNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet {
-
+                val user = sharedViewModel.user
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -142,7 +161,7 @@ fun App(mainActivity: MainActivity) {
                             .clip(CircleShape)
                             .background(MaterialTheme.colorScheme.inverseOnSurface),
                         painter = painterResource(
-                            id = if (sharedViewModel.user?.gender == "Female") {
+                            id = if (user?.gender == "Female") {
                                 R.drawable.female
                             } else {
                                 R.drawable.male
@@ -171,7 +190,7 @@ fun App(mainActivity: MainActivity) {
 
                         Text(
                             fontSize = 18.sp,
-                            text = sharedViewModel.user?.name ?: "User",
+                            text = user?.name ?: "User",
                             fontWeight = FontWeight.Bold
                         )
 
@@ -181,7 +200,7 @@ fun App(mainActivity: MainActivity) {
                             Text(
                                 modifier = Modifier
                                     .padding(30.dp, 5.dp),
-                                text = sharedViewModel.user?.gender ?: "Gemini",
+                                text = user?.gender ?: "Gemini",
                                 fontWeight = FontWeight.Medium
                             )
                         }
@@ -205,6 +224,7 @@ fun App(mainActivity: MainActivity) {
                         IconButton(onClick = {
                             coroutineScope.launch {
                                 drawerState.open()
+                                sharedViewModel.getUserById(1)
                             }
 
                         }) {
@@ -259,24 +279,14 @@ fun App(mainActivity: MainActivity) {
                     .padding(it)
                     .padding(start = if (showNavigationRail) 80.dp else 0.dp)
             ) {
-                if (dialog){
-                    UserDialog(){
-                        if(user == null){
-                            sharedViewModel.saveUser(it.id, it.name, it.gender)
-                        }
-                        else{
-                            sharedViewModel.updateUserById(it.id, it.name, it.gender)
-                        }
 
-                        dialog = false
-
-                    }
-                }
 
                 MyNavHost(navController, sharedViewModel)
             }
 
         }
+
+
 
 
         if (showNavigationRail) {
@@ -285,6 +295,21 @@ fun App(mainActivity: MainActivity) {
                     drawerState.open()
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun CustomBackHandler(navController: NavHostController, targetRoute: String) {
+    BackHandler(
+        enabled = true
+    ) {
+        navController.navigate(targetRoute) {
+            popUpTo(navController.graph.startDestinationId) {
+                saveState = true
+            }
+            launchSingleTop = true
+            restoreState = true
         }
     }
 }

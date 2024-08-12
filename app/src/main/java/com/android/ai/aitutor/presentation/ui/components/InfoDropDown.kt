@@ -87,7 +87,7 @@ fun InfoDropDown(subject: Subject, onItemSelected: (String) -> Unit) {
                             text = { Text(subtopic) },
                             onClick = {
                                 expanded = false
-                                onItemSelected(subtopic)
+                                onItemSelected("$subtopic ${subject.name}" )
                             }
                         )
                     }

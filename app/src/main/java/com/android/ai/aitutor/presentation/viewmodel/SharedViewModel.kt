@@ -58,6 +58,10 @@ class SharedViewModel @Inject constructor(
         return current.format(formatter)
     }
 
+    fun openConversation(convo : List<Peer>){
+        _currentConversation.value = convo
+    }
+
     fun addConversation() {
         viewModelScope.launch(Dispatchers.IO) {
             val getTime = getCurrentDateTime()
@@ -95,7 +99,11 @@ class SharedViewModel @Inject constructor(
         }
     }
 
+
+
+
     var user : User? = null
+
     fun getUserById(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             val userResponse = userDao.getUserById(id)
@@ -172,4 +180,12 @@ class SharedViewModel @Inject constructor(
             }
         }
     }
+
+
+    override fun onCleared() {
+        super.onCleared()
+        addConversation()
+    }
+
+
 }
