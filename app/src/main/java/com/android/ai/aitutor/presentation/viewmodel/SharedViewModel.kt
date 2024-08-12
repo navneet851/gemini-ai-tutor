@@ -7,6 +7,7 @@ import com.android.ai.aitutor.UiState
 import com.android.ai.aitutor.domain.entities.Chat
 import com.android.ai.aitutor.domain.entities.Conversation
 import com.android.ai.aitutor.domain.entities.Peer
+import com.android.ai.aitutor.domain.entities.User
 import com.android.ai.aitutor.domain.usecases.SendPromptUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +24,8 @@ class SharedViewModel @Inject constructor(
     private val sendPromptUseCase: SendPromptUseCase
 ) : ViewModel() {
 
-    private val conversationDao = MyApplication.conversationDB.getConversationDao()
+    private val conversationDao = MyApplication.appDB.getConversationDao()
+    private val userDao = MyApplication.appDB.getUserDao()
 
 
 
@@ -47,6 +49,7 @@ class SharedViewModel @Inject constructor(
 
     init {
         getAllConversations()
+        getUserById(1)
     }
 
     private fun getCurrentDateTime(): String {
@@ -89,6 +92,30 @@ class SharedViewModel @Inject constructor(
             conversationDao.getAllConversations().collect{
                 _conversations.value = it
             }
+        }
+    }
+
+    var user : User? = null
+    fun getUserById(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val userResponse = userDao.getUserById(id)
+            userResponse?.let{
+                user = User(it.id , it.name, it.gender)
+            }
+        }
+    }
+    fun saveUser(id: Int, name: String, gender: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val addUser = User(id = id, name = name, gender = gender)
+            userDao.addUser(addUser)
+            getUserById(id)
+        }
+    }
+
+    fun updateUserById(id: Int, name: String, gender: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            userDao.updateUserById(id, name, gender)
+            getUserById(id)
         }
     }
 

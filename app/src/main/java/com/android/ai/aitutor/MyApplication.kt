@@ -2,23 +2,23 @@ package com.android.ai.aitutor
 
 import android.app.Application
 import androidx.room.Room
-import com.android.ai.aitutor.data.datastore.local.ConversationDB
+import com.android.ai.aitutor.data.datastore.local.AppDB
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class MyApplication : Application() {
 
     companion object{
-        lateinit var conversationDB : ConversationDB
+        lateinit var appDB : AppDB
     }
 
     override fun onCreate() {
         super.onCreate()
 
-        conversationDB = Room.databaseBuilder(
+        appDB = Room.databaseBuilder(
             applicationContext,
-            ConversationDB::class.java,
-            ConversationDB.DATABASE_NAME
+            AppDB::class.java,
+            AppDB.DATABASE_NAME
         ).build()
     }
 }

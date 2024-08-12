@@ -19,7 +19,7 @@ fun MyNavHost(navController: NavHostController, sharedViewModel: SharedViewModel
         startDestination = Routes.Home.route
     ){
         composable(Routes.Home.route){
-            HomeScreen(navController)
+            HomeScreen(navController, sharedViewModel)
         }
         composable(Routes.Chat.route){
             ChatScreen(sharedViewModel)

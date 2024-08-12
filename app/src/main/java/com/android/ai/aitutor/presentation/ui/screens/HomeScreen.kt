@@ -27,10 +27,11 @@ import com.android.ai.aitutor.domain.entities.Banner
 import com.android.ai.aitutor.presentation.ui.components.BannerCard
 import com.android.ai.aitutor.presentation.ui.components.BannerTemplate
 import com.android.ai.aitutor.presentation.ui.navigation.Routes
+import com.android.ai.aitutor.presentation.viewmodel.SharedViewModel
 
 
 @Composable
-fun HomeScreen(navController: NavController) {
+fun HomeScreen(navController: NavController, sharedViewModel: SharedViewModel) {
 
     val classes = listOf(
         "1st",
@@ -91,7 +92,7 @@ fun HomeScreen(navController: NavController) {
             modifier = Modifier
                 .padding(5.dp)
                 .fillMaxWidth(),
-            text = "Welcome User",
+            text = "Welcome ${sharedViewModel.user?.name ?: "User"}",
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold
         )

@@ -6,13 +6,14 @@ import androidx.room.TypeConverters
 import com.android.ai.aitutor.data.datastore.local.conversation.ConversationDao
 import com.android.ai.aitutor.data.datastore.local.user.UserDao
 import com.android.ai.aitutor.domain.entities.Conversation
+import com.android.ai.aitutor.domain.entities.User
 
-@Database(entities = [Conversation::class], version = 1)
+@Database(entities = [Conversation::class, User::class], version = 1)
 @TypeConverters(Converters::class)
-abstract class ConversationDB : RoomDatabase() {
+abstract class AppDB : RoomDatabase() {
 
     companion object {
-        const val DATABASE_NAME = "conversation_db"
+        const val DATABASE_NAME = "Gemini_ai_db"
 
     }
 

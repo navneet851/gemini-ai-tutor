@@ -43,7 +43,12 @@ import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSiz
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -54,6 +59,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.android.ai.aitutor.presentation.ui.components.UserDialog
 import com.android.ai.aitutor.presentation.ui.navigation.BottomBar
 import com.android.ai.aitutor.presentation.ui.navigation.MyNavHost
 import com.android.ai.aitutor.presentation.ui.navigation.NavigationRailBar
@@ -80,11 +86,23 @@ fun App(mainActivity: MainActivity) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val coroutineScope = rememberCoroutineScope()
 
+    var user = sharedViewModel.user
+    var dialog by remember{
+        mutableStateOf(false)
+    }
+
+    LaunchedEffect(Unit) {
+        if (user == null){
+            dialog = true
+        }
+    }
+
+
+
+
     ModalNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet {
-
-                val gender = "male"
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -124,16 +142,16 @@ fun App(mainActivity: MainActivity) {
                             .clip(CircleShape)
                             .background(MaterialTheme.colorScheme.inverseOnSurface),
                         painter = painterResource(
-                            id = if (gender == "male") {
-                                R.drawable.male
-                            } else {
+                            id = if (sharedViewModel.user?.gender == "Female") {
                                 R.drawable.female
+                            } else {
+                                R.drawable.male
                             }
                         ),
                         contentDescription = "user"
                     )
 
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { dialog = true }) {
                         Icon(imageVector = Icons.Default.Create, contentDescription = "edit")
                     }
 
@@ -153,7 +171,7 @@ fun App(mainActivity: MainActivity) {
 
                         Text(
                             fontSize = 18.sp,
-                            text = "user name",
+                            text = sharedViewModel.user?.name ?: "User",
                             fontWeight = FontWeight.Bold
                         )
 
@@ -163,7 +181,7 @@ fun App(mainActivity: MainActivity) {
                             Text(
                                 modifier = Modifier
                                     .padding(30.dp, 5.dp),
-                                text = "Male",
+                                text = sharedViewModel.user?.gender ?: "Gemini",
                                 fontWeight = FontWeight.Medium
                             )
                         }
@@ -225,7 +243,15 @@ fun App(mainActivity: MainActivity) {
                 }
 
             }
-        ) {
+        ) { it ->
+
+
+
+
+
+
+
+
 
             Box(
                 modifier = Modifier
@@ -233,6 +259,20 @@ fun App(mainActivity: MainActivity) {
                     .padding(it)
                     .padding(start = if (showNavigationRail) 80.dp else 0.dp)
             ) {
+                if (dialog){
+                    UserDialog(){
+                        if(user == null){
+                            sharedViewModel.saveUser(it.id, it.name, it.gender)
+                        }
+                        else{
+                            sharedViewModel.updateUserById(it.id, it.name, it.gender)
+                        }
+
+                        dialog = false
+
+                    }
+                }
+
                 MyNavHost(navController, sharedViewModel)
             }
 
