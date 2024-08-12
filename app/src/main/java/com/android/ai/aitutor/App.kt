@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -109,16 +110,6 @@ fun App(mainActivity: MainActivity) {
                     )
                 }
 
-//                LazyColumn(
-//                    modifier = Modifier
-//                        .padding(15.dp)
-//                ) {
-//                    items(10){
-//                        SliderItemCard("gfggdth hfghdfdvdsvfvsdfvfdsdvffgfdgrgrgsrvdh hdfhdf", {}){
-//
-//                        }
-//                    }
-//                }
 
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -212,6 +203,16 @@ fun App(mainActivity: MainActivity) {
                                 else -> ""
                             }
                         )
+                    },
+                    actions = {
+                       if(currentRoute == "chat"){
+                           IconButton(onClick = {
+                               sharedViewModel.addConversation()
+                           }) {
+                               Icon(imageVector = Icons.Default.Add, contentDescription = "create")
+                           }
+                       }
+
                     },
                     colors = TopAppBarDefaults.topAppBarColors(
                         //containerColor = Color(0x1D651FFF),

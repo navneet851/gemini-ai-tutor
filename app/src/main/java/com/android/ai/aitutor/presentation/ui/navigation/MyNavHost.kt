@@ -25,7 +25,7 @@ fun MyNavHost(navController: NavHostController, sharedViewModel: SharedViewModel
             ChatScreen(sharedViewModel)
         }
         composable(Routes.History.route){
-            HistoryScreen()
+            HistoryScreen(sharedViewModel)
         }
         composable("${Routes.Info.route}/{inputString}"){ navBackStackEntry ->
             /* Extracting the id from the route */
